@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <h2>PREMIUM LOGIN</h2>
+        <p>Login with your Google account</p>
+        
+        <button class="google-btn" id="loginBtn">
+            <i class="fa-brands fa-google google-icon"></i>
+            Continue with Google
+        </button>
+
+        <p style="margin-top: 25px; font-size: 11px; opacity: 0.5;">Secure Connection Enabled</p>
+    </div>
+
+</body>
+
+
+
+
+    <script type="module">
+        import { loginWithGoogle } from './script.js';
+        document.getElementById('loginBtn').onclick = async () => {
+            try {
+                await loginWithGoogle();
+                window.location.href = "index.html";
+            } catch (e) { alert("Error: " + e.message); }
+        };
+    </script>
+</body>
+</html>

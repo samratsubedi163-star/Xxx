@@ -1,0 +1,195 @@
+/* १. भ्यारिएबल र बेसिक सेटिङ */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --rainbow-gradient: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+    --title-size: 26px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #050505; /* Deep Black */
+    color: #fff;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* २. Floating Dynamic Rainbow Title */
+.premium-header, .floating-title {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px); /* Glossy Look */
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.rainbow-text, .floating-title {
+    font-size: var(--title-size);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: var(--rainbow-gradient);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbowShift 6s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
+@keyframes rainbowShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* ३. Video Cards (Index Page) */
+.container {
+    margin-top: 100px;
+    padding: 20px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    transition: 0.4s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(255, 0, 128, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* ४. Premium Login Card */
+.login-card {
+    background: var(--glass-bg);
+    padding: 50px;
+    border-radius: 25px;
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    margin: 150px auto;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+
+.google-btn {
+    background: #ffffff;
+    color: #000000;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* लोगो र अक्षर बीचको दूरी */
+    transition: 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.google-btn:hover {
+    background: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+
+/* ५. Video Player Page (Enter) */
+.player-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+video {
+    width: 95%;
+    max-height: 80vh;
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+/* Seek Feedback (10s Forward/Backward) */
+.seek-feedback {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 20px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    display: none;
+    z-index: 2000;
+    backdrop-filter: blur(10px);
+}
+
+/* ६. Responsive Mobile Fix */
+@media (max-width: 600px) {
+    :root { --title-size: 18px; }
+    .container { margin-top: 80px; }
+}
+
+
+.google-icon {
+    /* Google-like Multi-color effect using Gradient */
+    background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 22px;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+}
+
+.google-icon {
+    font-size: 22px;
+    font-weight: 900;
+    /* Real Google Colors with a sharp look */
+    background: linear-gradient(to bottom right, #4285F4 25%, #EA4335 25%, #EA4335 50%, #FBBC05 50%, #FBBC05 75%, #34A853 75%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Stronger Glow to match Premium Design */
+    filter: drop-shadow(0 0 5px rgba(66, 133, 244, 0.4));
+    transition: 0.3s ease;
+}
+
+/* बटन होभर गर्दा आइकन झन् चम्किन्छ */
+.google-btn:hover .google-icon {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+    transform: scale(1.1);
+}

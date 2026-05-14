@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Player Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Zig-Zag Video List Styling */
+        .video-list { display: flex; flex-direction: column; gap: 20px; padding: 20px; }
+        .list-item { 
+            display: flex; align-items: center; background: var(--glass-bg); 
+            border-radius: 15px; overflow: hidden; border: 1px solid var(--glass-border);
+        }
+        .list-item:nth-child(even) { flex-direction: row-reverse; } /* Left-Right Zig-Zag */
+        .list-item img { width: 40%; height: 100px; object-fit: cover; }
+        .list-content { padding: 15px; width: 60%; }
+
+        /* Premium Controls */
+        .player-controls {
+            display: flex; justify-content: space-around; align-items: center;
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; margin: 10px;
+        }
+        .ctrl-btn { color: white; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        .ctrl-btn:hover { color: #00ff00; transform: scale(1.2); }
+
+        /* Quality Dropdown */
+        .settings-menu { position: relative; display: inline-block; }
+        .quality-list {
+            position: absolute; bottom: 40px; right: 0; background: #111;
+            border: 1px solid #333; border-radius: 10px; display: none; flex-direction: column;
+        }
+        .quality-list button { background: none; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+        .quality-list button:hover { background: #333; }
+    </style>
+</head>
+<body>
+
+    <header class="premium-header">
+        <div class="rainbow-text" id="dynamicTitle">PREMIUM VIDEO</div>
+    </header>
+
+ 
+    </div>
+<div class="container">
+    <div class="floating-title">PREMIUM GALLERY</div>
+    <div class="video-grid" id="videoGrid">
+        </div>
+</div>
+
+<script type="module">
+    // script.js बाट आवश्यक फङ्सनहरू ल्याउने
+    import { fetchAllVideos, auth } from './script.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // तपाईँको loadVideos फङ्सन यहाँ राख्नुहोस्
+    // १. भिडियो लिस्ट देखाउने (लगइन नभए पनि चल्छ)
+async function loadVideos() {
+    const videos = await fetchAllVideos();
+    const grid = document.getElementById('videoGrid');
+    
+    grid.innerHTML = videos.map(v => `
+        <div class="card" onclick="handleVideoClick('${v.imagekit_url}', '${v.title}')">
+            <img src="${v.imagekit_url}?tr=w-400,h-225">
+            <h3>${v.title}</h3>
+        </div>
+    `).join('');
+}
+
+// २. क्लिक गर्दाको लजिक
+window.handleVideoClick = (url, title) => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // लगइन छ भने प्ले गर्ने
+            sessionStorage.setItem('currentVideo', url);
+            sessionStorage.setItem('currentTitle', title);
+            window.location.href = "enter.html";
+        } else {
+            // लगइन छैन भने सिधै Login Page मा पठाउने
+            alert("भिडियो हेर्न पहिला लगइन गर्नुहोस्!");
+            window.location.href = "login.html";
+        }
+    });
+};
+
+loadVideos();
+
+</script>
+
+
+</body>
+</html>

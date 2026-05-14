@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="premium-header">
+        <div class="rainbow-text" id="dynamicTitle">PLAYING...</div>
+    </header>
+
+    <div class="player-container">
+        <div id="b-hint" class="seek-feedback">⏪ 10s</div>
+        <div id="f-hint" class="seek-feedback">10s ⏩</div>
+        <video id="vPlayer" controls controlsList="nodownload"></video>
+    </div>
+
+    <script type="module">
+        import { setupDoubleTap, auth } from './script.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const video = document.getElementById('vPlayer');
+        
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                video.src = sessionStorage.getItem('currentVideo');
+                document.getElementById('dynamicTitle').innerText = sessionStorage.getItem('currentTitle');
+                setupDoubleTap(video, document.getElementById('f-hint'), document.getElementById('b-hint'));
+            }
+        });
+    </script>
+</body>
+</html>
