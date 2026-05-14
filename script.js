@@ -84,3 +84,33 @@ export const fetchAllVideos = async () => {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
+
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ६. Auto-Redirect & User Data Sync
+onAuthStateChanged(auth, async (user) => {
+    const currentPage = window.location.pathname;
+
+    if (!user) {
+        // यदि लगइन छैन र युजर पेज (user.html) मा जान खोज्दैछ भने लगइनमा पठाउने
+        if (currentPage.includes("user.html")) {
+            window.location.href = "login.html";
+        }
+    } else {
+        // लगइन छ भने एडमिन प्यानलको लागि युजर डेटा Firestore मा पठाउने
+        try {
+            await setDoc(doc(db, "users", user.uid), {
+                email: user.email,
+                lastLogin: new Date().toISOString()
+            }, { merge: true });
+            
+            // यदि लगइन पेजमा छ भने सिधै युजर पेजमा लैजाने
+            if (currentPage.includes("login.html")) {
+                window.location.href = "user.html";
+            }
+        } catch (err) {
+            console.error("User Sync Error:", err);
+        }
+    }
+});
+
